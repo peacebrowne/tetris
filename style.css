@@ -256,18 +256,13 @@ button:active{
 } 
 
 header h1{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: 0.3rem;
+    cursor: pointer;
 }
 
-header i{
-    font-size: small;
-    width: 10px;
-    margin-right: 0.4rem;
-}
 
+main h1 {
+    text-transform: capitalize;
+}
 
 @media only screen and (max-width: 480px) {
     
@@ -278,11 +273,13 @@ header i{
     }
 
     header{
-        padding: 0.2rem;
+        padding: 0.5rem;
+
     }
 
     header h1{
-        font-size: 1.8rem;
+        font-size: 1.2rem;
+        width: 7rem;
     }
 
 }
