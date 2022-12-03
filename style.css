@@ -50,12 +50,11 @@ header{
     align-content: center;
 }
 
-.score-level{
+header .score-level{
     display: flex;
     width: 20rem;
     align-items: center;
     justify-content: space-evenly;
-    /* padding-top: 0.5rem; */
 }
 
 h4{
@@ -75,9 +74,13 @@ nav{
     background-color: var(--white);
 }
 
+nav h1{
+    font-size: 4rem;
+}
+
 main{
     width: 100%;
-    height: 65vh;
+    height: 80vh;
     background-color: #007bff;
     display: flex;
     justify-content: center;
@@ -160,30 +163,33 @@ h5{
 }
 
 footer{
+    display: none;
+    justify-content: center;
+    align-items: center;
     position: absolute;
     width: 100%;
-    height: 8rem;
+    height: auto;
     bottom: 0;
-    display: flex;
-    /* background-color: #007bff; */
+    /* background-color: #ff9500; */
 }
 
 .buttons{
-    width: 8rem;
-    height: 7.5rem;
+    width: 6rem;
+    height: 6rem;
     position: relative;
-    margin: 0px auto 1rem auto;
+    margin: 0px auto 0rem auto;
     display: block;
+    /* background-color: #6f42c1; */
 }
 
-button{
+.control-btn{
     padding: 0.2rem 0.6rem;
     border: 1px solid var(--black);
     position: absolute;
     background-color: var(--danger);
     color: var(--black);
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 2.3rem;
+    height: 2.3rem;
     border-radius: 50px;
     box-shadow: 1px 1px 3px var(--dark);
 } 
@@ -195,7 +201,7 @@ button:active{
 
 .up{
     top: 0rem;
-    left: 2.7rem;
+    left: 1.8rem;
     /* background-color: var(--green); */
     animation: up 1.8s ease-out alternate forwards;
 }
@@ -210,7 +216,7 @@ button:active{
 }
 
 .right{
-    top: 2.5rem;
+    top: 1.8rem;
     right: 0rem;
     /* background-color: var(--warning); */
     animation: right 2.5s ease-out alternate forwards;
@@ -226,7 +232,7 @@ button:active{
 } 
 
 .down{
-    left: 2.7rem;
+    left: 1.8rem;
     bottom: 0rem;
     /* background-color: var(--purple); */
     animation: down 3s ease-out alternate forwards;
@@ -242,7 +248,7 @@ button:active{
 } 
 
 .left{
-    top: 2.5rem;
+    top: 1.8rem;
     left: 0rem;
     animation: left 3.5s ease-out alternate forwards;
 } 
@@ -264,6 +270,149 @@ main h1 {
     text-transform: capitalize;
 }
 
+.tetrimonies{
+    width: 40%;
+    height: 90%;
+    /* background-color: #20c997; */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 0.2rem;
+}
+
+.grid{
+    /* background-color: #28a745; */
+    grid-row: 1/-1;
+    display: grid;
+    grid-template-columns: repeat(10, minmax(1rem,04rem));
+    grid-template-rows: repeat(20, minmax(1rem,04rem));
+    /* gap: 1px; */
+}
+
+.grid div{
+    /* background-color: peru; */
+    border: 1px solid lightgrey;
+}
+.new-grid{
+    grid-row: 1/2;
+    display: grid;
+    grid-template-columns: repeat(10, minmax(1rem,04rem));
+    /* gap: 2px;  */
+    height: auto;
+}
+.new-grid div{
+    /* background-color: var(--pink); */
+    border: 1px solid lightgrey;
+
+}
+.score-level{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.score-level .score{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 40%;
+
+}
+
+.score-level .score h1,.score-level .level h1{
+    font-size: 2rem;
+}
+
+.score-level .level{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 40%;
+}
+
+
+.high-score-section{
+    box-shadow: 1px 1px 3px var(--black);
+    /* background-color: #fd7e14; */
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.high-score-btn{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.high-score-section h4{
+    font-size: 2rem;
+    text-transform: capitalize;
+}
+
+.high-score-btn button{
+    background-color: var(--danger);
+    color: var(--white);
+    padding: 0.3rem 1.6rem;
+    text-transform: capitalize;
+    border: none;
+    box-shadow: 1px 1px 3px var(--black);
+    cursor: pointer;
+}
+
+.display-none{
+    display: none !important;
+}
+
+.display-flex{
+    display: flex !important;
+}
+
+.reset-score-popup{
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.673);
+    z-index: 1;
+    position: absolute;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+@media only screen and (min-width: 481px)and (max-width: 900px){
+    section{
+        width: 50%;
+        height: auto;
+    }
+    main{
+        height: 70vh;
+    }
+    .grid{
+        grid-template-columns: repeat(10, minmax(1rem,04rem));
+        grid-template-rows: repeat(20, minmax(1rem,01rem));
+    }
+    .new-grid{
+        /* background-color: #28a7a3;
+        grid-row: 1/2;
+        display: grid; */
+        grid-template-columns: repeat(10, minmax(0rem,04rem));
+        grid-template-rows: repeat(10, minmax(0rem,01rem));
+
+        /* gap: 2px;  */
+    }
+    footer{
+        display: flex;
+    }
+    .tetrimonies{
+        width: 50%;
+    }
+    
+
+}
 @media only screen and (max-width: 480px) {
     
     ul li{
@@ -271,7 +420,9 @@ main h1 {
         font-size: medium;
         font-weight: 200;
     }
-
+    main{
+        height: 70vh;
+    }
     header{
         padding: 0.5rem;
 
@@ -281,5 +432,39 @@ main h1 {
         font-size: 1.2rem;
         width: 7rem;
     }
+    section{
+        width: 50%;
+        height: auto;
+    }
+    .grid{
 
+        grid-template-columns: repeat(10, minmax(0rem,04rem));
+        grid-template-rows: repeat(20, minmax(0.5rem,01rem));
+    }
+
+    .new-grid{
+        grid-template-columns: repeat(10, minmax(0rem,04rem));
+        grid-template-rows: repeat(10, minmax(0.5rem,01rem));
+    }
+    nav h1{
+        font-size: 2rem;
+    }
+    footer{
+        display: flex;
+    }
+
+    .buttons{
+        /* width: 7rem;
+        height: 6.5rem; */
+        position: relative;
+        margin: 0px auto 0.2rem auto;
+        display: block;
+        /* background-color: #6f42c1; */
+    }
+    section{
+        width: 90%;
+    }
+    .tetrimonies{
+        width: 90%;
+    }
 }
