@@ -14,11 +14,11 @@ document.body.addEventListener('click', ev =>{
     
     ev.preventDefault()
     let target = ev.target
-    if(target.className =='new-game-menu') controls('tetrimonies')
-    else if(target.className =='continue-menu') controls('continue')
-    else if(target.className =='high-score-menu') controls('high-score-section')
-    else if(target.className =='select-level-menu') controls('select level')
-    else if(target.className =='help-menu') controls('help')
+    if(target.className =='new-game-menu') stable('tetrimonies')
+    else if(target.className =='continue-menu') stable('continue')
+    else if(target.className =='high-score-menu') stable('high-score-section')
+    else if(target.className =='select-level-menu') stable('select level')
+    else if(target.className =='help-menu') stable('help')
     else if(target.className =='show-menu') show_menu('nav')
 
 })
@@ -28,7 +28,7 @@ document.body.addEventListener('click', ev =>{
  * Hide menu and display section depending on the menu that was selected
  *  *  @param section - Selected menu
  */
-const controls = msg =>{
+const stable = msg =>{
     menus.forEach(menu =>{
         menu.style.opacity = '100'
         menu.style.animationName = 'menu_out'
@@ -49,6 +49,7 @@ const controls = msg =>{
  *  *  @param section - Menu section
  */
 const show_menu = section =>{
+
     menus.forEach(menu =>{
         menu.style.opacity = '0'
         menu.style.animationName = 'menu_in'
@@ -74,6 +75,7 @@ const display = section => {
  *  *  @param item - newly created h1 element
  */
 const section = (items,sec) => {
+
     let section = document.createElement('section')
     section.classList.add(sec)
 
@@ -84,33 +86,48 @@ const section = (items,sec) => {
     
 }
 
-
 /**
  * New Game section
  *  *  @param clas - Selected menu message
  */
 
+ let grid;
+ let timeId;
+
  const new_game = clas =>{
     
-    let grid = document.createElement('div')
-    grid.classList.add('grid')
+    let grids = document.createElement('div')
+    grids.classList.add('grids')
    
-    let new_grid = document.createElement('div')
-    new_grid.classList.add('new-grid')
+    let new_grids = document.createElement('div')
+    new_grids.classList.add('new-grids')
     
     let score_level = document.createElement('div')
     score_level.classList.add('score-level')
     
-    section([_grid(grid),_new_grid(new_grid),_score_level(score_level)],clas)
+    section([_grid(grids),_new_grid(new_grids),_score_level(score_level)],clas)
     toggle_button()
     current_section = `.${clas}`
-    
+    grid = document.querySelectorAll('.grids div')
+    draw()
+    timeId = setInterval(move_down,1000)
+
 }
 
 const _grid = grid =>{
     let i = 0;
     while(i < 200){
         let ele = document.createElement('div')
+        ele.classList.add('grid')
+        grid.appendChild(ele)
+        i++
+    }
+
+    i = 0;
+    while(i < 10){
+        let ele = document.createElement('div')
+        ele.classList.add('taken')
+        // ele.classList.add('grid')
         grid.appendChild(ele)
         i++
     }
@@ -121,6 +138,7 @@ const _new_grid = grid =>{
     let i = 0;
     while(i < 100){
         let ele = document.createElement('div')
+        ele.classList.add('new-grid')
         grid.appendChild(ele)
         i++
     }
@@ -167,10 +185,117 @@ const high_score = clas =>{
 const arrows = ['up','right','down','left']
 const buttons = document.querySelectorAll('.control-btn')
 
-const toggle_button = () =>{
+const toggle_button = () => {
     for (let i = 0; i < buttons.length; i++) {
         add_toggle(buttons[i],arrows[i])
     }
 }
 
 const add_toggle = (ele,clas) => ele.classList.toggle(clas)
+const remove_toggle = (ele,clas) => ele.classList.remove(clas)
+
+let width = 10;
+let start_pos = 4;
+
+const ltetrimonies = [
+    [start_pos+1, start_pos, width+start_pos, width*2+start_pos],
+    [start_pos+1, start_pos, start_pos-1, width+start_pos+1],
+    [start_pos+1, width+start_pos+1, width*2+start_pos+1, width*2+start_pos],
+    [start_pos, width+start_pos+2, width+start_pos+1, width+start_pos]
+]
+
+const tetrimonies = [ltetrimonies]
+
+let random = Math.floor(Math.random() * tetrimonies.length)
+let rotation = 0;
+let target = tetrimonies[random][rotation]
+
+const draw = () =>{
+
+    target.forEach(val => add_toggle(grid[val],'tetris'))
+
+}
+
+const undraw = () => {
+
+    target.forEach( val => {
+        remove_toggle(grid[val],'tetris');
+    })
+
+}
+
+
+const stop_move = () =>{
+
+    if(target.some(box => grid[box + width].className.includes('taken'))){
+        target.forEach( item => grid[item].classList.add('taken'))
+        random = Math.floor(Math.random() * tetrimonies.length)
+
+        rotation = Math.floor(Math.random() * tetrimonies[random][rotation].length)
+        target = tetrimonies[random][rotation]
+        start_pos = 4;
+        draw()
+    }
+    
+}
+
+// handling keypress event
+
+const control = ev =>{
+    let btn = ev.key
+
+    if(btn === 'ArrowUp'){
+        console.log(btn)
+        move_up()
+    }
+    else if(btn === 'ArrowRight'){
+        console.log(btn)
+        move_right()
+    }
+    else if(btn === 'ArrowLeft'){
+        move_left()
+        console.log(btn)
+    }else if(btn === 'ArrowDown'){
+        console.log(btn)
+    }
+}
+
+const move_left = () => {
+    const left = target.some(val => val % width === 0)
+    if(left) return
+    undraw()
+    target = target.map(val => --val)
+    draw()
+}
+
+const move_right = () => {
+    const right = target.some(val => val % width === width -1)
+    if(right) return
+    undraw()
+    target = target.map(val => ++val)
+    draw()
+}
+
+const move_up = () =>{
+
+    undraw()
+    target = tetrimonies[random][rotation + 1]
+    
+    if(target === undefined){
+        rotation = -1;
+        target = tetrimonies[random][rotation + 1]
+    }
+
+    target = target.map(val => val + width)
+    draw()
+}
+
+const move_down = () => { 
+    undraw()
+    target = target.map(val => val + width)
+    draw()
+    stop_move()
+}
+
+
+document.addEventListener('keydown',control)

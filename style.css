@@ -280,27 +280,34 @@ main h1 {
     gap: 0.2rem;
 }
 
-.grid{
+.tetris{
+    background-color: black;
+    border: 1px solid lightgrey;
+}
+
+.grids{
     /* background-color: #28a745; */
     grid-row: 1/-1;
     display: grid;
     grid-template-columns: repeat(10, minmax(1rem,04rem));
     grid-template-rows: repeat(20, minmax(1rem,04rem));
     /* gap: 1px; */
-}
-
-.grid div{
-    /* background-color: peru; */
     border: 1px solid lightgrey;
 }
-.new-grid{
+
+.grids div{
+    /* background-color: peru; */
+    /* border: 1px solid lightgrey; */
+
+}
+.new-grids{
     grid-row: 1/2;
     display: grid;
     grid-template-columns: repeat(10, minmax(1rem,04rem));
     /* gap: 2px;  */
     height: auto;
 }
-.new-grid div{
+.new-grids div{
     /* background-color: var(--pink); */
     border: 1px solid lightgrey;
 
@@ -391,16 +398,16 @@ main h1 {
     main{
         height: 70vh;
     }
-    .grid{
+    .grids{
         grid-template-columns: repeat(10, minmax(1rem,04rem));
-        grid-template-rows: repeat(20, minmax(1rem,01rem));
+        /* grid-template-rows: repeat(20, minmax(1rem,01rem)); */
     }
-    .new-grid{
+    .new-grids{
         /* background-color: #28a7a3;
         grid-row: 1/2;
         display: grid; */
         grid-template-columns: repeat(10, minmax(0rem,04rem));
-        grid-template-rows: repeat(10, minmax(0rem,01rem));
+        /* grid-template-rows: repeat(10, minmax(0rem,01rem)); */
 
         /* gap: 2px;  */
     }
@@ -436,15 +443,12 @@ main h1 {
         width: 50%;
         height: auto;
     }
-    .grid{
-
+    .grids{
         grid-template-columns: repeat(10, minmax(0rem,04rem));
-        grid-template-rows: repeat(20, minmax(0.5rem,01rem));
     }
 
-    .new-grid{
+    .new-grids{
         grid-template-columns: repeat(10, minmax(0rem,04rem));
-        grid-template-rows: repeat(10, minmax(0.5rem,01rem));
     }
     nav h1{
         font-size: 2rem;
