@@ -209,6 +209,7 @@ const tetrimonies = [ltetrimonies]
 let random = Math.floor(Math.random() * tetrimonies.length)
 let rotation = 0;
 let target = tetrimonies[random][rotation]
+let standby = target;
 
 const draw = () =>{
 
@@ -233,6 +234,7 @@ const stop_move = () =>{
 
         rotation = Math.floor(Math.random() * tetrimonies[random][rotation].length)
         target = tetrimonies[random][rotation]
+        standby = target;
         start_pos = 4;
         draw()
     }
@@ -279,14 +281,26 @@ const move_right = () => {
 const move_up = () =>{
 
     undraw()
-    target = tetrimonies[random][rotation + 1]
+    let current_row = []
+    for(let i = 0; i < target.length; i++){
+        let val = target[i]
+        current_row.push(val - standby[i])
+    }
+
+    target = tetrimonies[random][++rotation]
+    standby = target;
     
     if(target === undefined){
         rotation = -1;
-        target = tetrimonies[random][rotation + 1]
+        target = tetrimonies[random][++rotation]
     }
 
-    target = target.map(val => val + width)
+    let balance = []
+    for(let i = 0; i < target.length; i++){
+        let val = target[i]
+        balance.push(val - current_row[i])
+    }
+    target = balance
     draw()
 }
 
