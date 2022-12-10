@@ -35,7 +35,7 @@ body{
     height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     position: relative;
     background-color: whitesmoke;
@@ -48,6 +48,7 @@ header{
     display: flex;
     justify-content: space-between;
     align-content: center;
+    /* background-color: #dc3545; */
 }
 
 header .score-level{
@@ -166,15 +167,16 @@ footer{
     display: none;
     justify-content: center;
     align-items: center;
-    position: absolute;
+    /* position: absolute; */
     width: 100%;
-    height: auto;
+    height: 6rem;
     bottom: 0;
     /* background-color: #ff9500; */
+    margin-bottom: 1rem;
 }
 
 .buttons{
-    width: 6rem;
+    width: 30%;
     height: 6rem;
     position: relative;
     margin: 0px auto 0rem auto;
@@ -396,7 +398,7 @@ main h1 {
         height: auto;
     }
     main{
-        height: 70vh;
+        height: 60vh;
     }
     .grids{
         grid-template-columns: repeat(10, minmax(1rem,04rem));

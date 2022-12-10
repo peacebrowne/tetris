@@ -20,9 +20,13 @@ document.body.addEventListener('click', ev =>{
     else if(target.className =='select-level-menu') stable('select level')
     else if(target.className =='help-menu') stable('help')
     else if(target.className =='show-menu') show_menu('nav')
+    else if(target.className.includes('ArrowUp')) move_up('nav')
+    else if(target.className.includes('ArrowRight')) move_right()
+    else if(target.className.includes('ArrowLeft')) move_left()
+    else if(target.className.includes('ArrowDown')) {}
+
 
 })
-
 
 /**
  * Hide menu and display section depending on the menu that was selected
