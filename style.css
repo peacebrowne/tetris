@@ -35,7 +35,7 @@ body{
     height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     position: relative;
     background-color: whitesmoke;
@@ -299,7 +299,7 @@ main h1 {
 
 .grids div{
     /* background-color: peru; */
-    /* border: 1px solid lightgrey; */
+    border: 1px solid lightgrey;
 
 }
 .new-grids{

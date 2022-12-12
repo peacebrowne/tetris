@@ -20,17 +20,17 @@ document.body.addEventListener('click', ev =>{
     else if(target.className =='select-level-menu') stable('select level')
     else if(target.className =='help-menu') stable('help')
     else if(target.className =='show-menu') show_menu('nav')
-    else if(target.className.includes('ArrowUp')) move_up('nav')
+    else if(target.className.includes('ArrowUp')) move_up()
     else if(target.className.includes('ArrowRight')) move_right()
     else if(target.className.includes('ArrowLeft')) move_left()
-    else if(target.className.includes('ArrowDown')) {}
+    else if(target.className.includes('ArrowDown')) dropdown()
 
 
 })
 
 /**
- * Hide menu and display section depending on the menu that was selected
- *  *  @param section - Selected menu
+ * Engine of the game, controls the entire game
+ *  *  @param msg - Selected menu
  */
 const stable = msg =>{
     menus.forEach(menu =>{
@@ -49,7 +49,7 @@ const stable = msg =>{
 }
 
 /**
- * Hide current section and display menu and remove animations from control buttons
+ * Show menu for user to select next option
  *  *  @param section - Menu section
  */
 const show_menu = section =>{
@@ -66,17 +66,19 @@ const show_menu = section =>{
 
 /**
  *  Displaying sections on page depending on the menu that was selected
- *  *  @param section - newly created h1 element
+ *  *  @param section - newly created section
  */
 const display = section => {
+
     main.innerHTML = ''
     main.append(section)
+
 }
 
 /**
  * Creating new section and displaying it depending on the menu that was selected
  *  *  @param sec - newly created section
- *  *  @param item - newly created h1 element
+ *  *  @param items - newly created h1 element
  */
 const section = (items,sec) => {
 
@@ -91,14 +93,13 @@ const section = (items,sec) => {
 }
 
 /**
- * New Game section
+ * Generate new grid for the new game section
  *  *  @param clas - Selected menu message
  */
+let grid;
+let timeId;
 
- let grid;
- let timeId;
-
- const new_game = clas =>{
+const new_game = clas =>{
     
     let grids = document.createElement('div')
     grids.classList.add('grids')
@@ -118,7 +119,12 @@ const section = (items,sec) => {
 
 }
 
-const _grid = grid =>{
+/**
+ * Generate 210 new grid for the new game section
+ *  *  @param clas - Selected menu message
+ */
+const _grid = grid => {
+
     let i = 0;
     while(i < 200){
         let ele = document.createElement('div')
@@ -131,13 +137,16 @@ const _grid = grid =>{
     while(i < 10){
         let ele = document.createElement('div')
         ele.classList.add('taken')
-        // ele.classList.add('grid')
         grid.appendChild(ele)
         i++
     }
     return grid
 }
 
+/**
+ * Generate 100 new grid for the new game section
+ *  *  @param grid - Selected menu message
+ */
 const _new_grid = grid =>{
     let i = 0;
     while(i < 100){
@@ -166,7 +175,7 @@ const _score_level = grid =>{
 
 /**
  * High score section
- *  *  @param section - Selected menu
+ *  *  @param clas - Selected menu
  */
 const high_score = clas =>{
 
@@ -202,118 +211,106 @@ let width = 10;
 let start_pos = 4;
 
 const ltetrimonies = [
-    [start_pos+1, start_pos, width+start_pos, width*2+start_pos],
-    [start_pos+1, start_pos, start_pos-1, width+start_pos+1],
-    [start_pos+1, width+start_pos+1, width*2+start_pos+1, width*2+start_pos],
-    [start_pos, width+start_pos+2, width+start_pos+1, width+start_pos]
+    [start_pos,start_pos+1,width+start_pos, width*2+start_pos],
+    [start_pos-1,start_pos, start_pos+1,width+start_pos+1],
+    [start_pos+1, width+start_pos+1,width*2+start_pos, width*2+start_pos+1],
+    [start_pos,width+start_pos , width+start_pos+1,width+start_pos+2 ]
 ]
 
 const tetrimonies = [ltetrimonies]
 
 let random = Math.floor(Math.random() * tetrimonies.length)
 let rotation = 0;
-let target = tetrimonies[random][rotation]
-let standby = target;
+let current_tetrimino = tetrimonies[random][rotation]
+let previous_tetrimino = current_tetrimino;
+let new_tetrimino;
 
-const draw = () =>{
+const draw = () => current_tetrimino.forEach(val => add_toggle(grid[val],'tetris'));
+const undraw = () => current_tetrimino.forEach( val => remove_toggle(grid[val],'tetris'))
 
-    target.forEach(val => add_toggle(grid[val],'tetris'))
-
-}
-
-const undraw = () => {
-
-    target.forEach( val => {
-        remove_toggle(grid[val],'tetris');
-    })
-
-}
-
-
+/**
+ * Each time tetrimino reaches at the bottom of the square
+ * new tetrimino gets drawn at the top of the square.
+ * 
+ */
 const stop_move = () =>{
 
-    if(target.some(box => grid[box + width].className.includes('taken'))){
-        target.forEach( item => grid[item].classList.add('taken'))
+    if(current_tetrimino.some(box => grid[box + width].className.includes('taken'))){
+        current_tetrimino.forEach( item => grid[item].classList.add('taken'))
         random = Math.floor(Math.random() * tetrimonies.length)
-
         rotation = Math.floor(Math.random() * tetrimonies[random][rotation].length)
-        target = tetrimonies[random][rotation]
-        standby = target;
+        current_tetrimino = tetrimonies[random][rotation]
+        previous_tetrimino = current_tetrimino;
         start_pos = 4;
         draw()
+        clearInterval(dropTimeId)
     }
+
     
 }
 
 // handling keypress event
-
 const control = ev =>{
     let btn = ev.key
-
-    if(btn === 'ArrowUp'){
-        console.log(btn)
-        move_up()
-    }
-    else if(btn === 'ArrowRight'){
-        console.log(btn)
-        move_right()
-    }
-    else if(btn === 'ArrowLeft'){
-        move_left()
-        console.log(btn)
-    }else if(btn === 'ArrowDown'){
-        console.log(btn)
-    }
+    if(btn === 'ArrowUp') move_up()
+    else if(btn === 'ArrowRight') move_right()
+    else if(btn === 'ArrowLeft') move_left()
+    else if(btn === 'ArrowDown') dropdown()
 }
 
-const move_left = () => {
-    const left = target.some(val => val % width === 0)
-    if(left) return
+const move_left = () =>{
+
+    if(current_tetrimino.some(val => val % width === 0)) return;
     undraw()
-    target = target.map(val => --val)
+    current_tetrimino = current_tetrimino.map(val => --val)
     draw()
+
 }
 
-const move_right = () => {
-    const right = target.some(val => val % width === width -1)
-    if(right) return
+const move_right = () =>{
+
+    if(current_tetrimino.some(val => val % width === width-1)) return
     undraw()
-    target = target.map(val => ++val)
+    current_tetrimino = current_tetrimino.map(val => ++val)
     draw()
+    
 }
 
 const move_up = () =>{
 
     undraw()
-    let current_row = []
-    for(let i = 0; i < target.length; i++){
-        let val = target[i]
-        current_row.push(val - standby[i])
-    }
+    rotation++
 
-    target = tetrimonies[random][++rotation]
-    standby = target;
+    if(tetrimonies[random][rotation] === undefined) rotation = 0;
+
+    new_tetrimino = tetrimonies[random][rotation]
     
-    if(target === undefined){
-        rotation = -1;
-        target = tetrimonies[random][++rotation]
+    for(let i = 0; i < current_tetrimino.length; i++){
+        current_tetrimino[i] = (current_tetrimino[i] - previous_tetrimino[i]) + new_tetrimino[i]
     }
 
-    let balance = []
-    for(let i = 0; i < target.length; i++){
-        let val = target[i]
-        balance.push(val - current_row[i])
+    if(current_tetrimino[0] % width === width-1 && current_tetrimino.some(val => val % width === 0)){
+        current_tetrimino = current_tetrimino.map(val => val + 1)
     }
-    target = balance
+
+    if(current_tetrimino[current_tetrimino.length-1] % width === 0 && current_tetrimino.some(val => val % width === width-1)){
+        current_tetrimino = current_tetrimino.map(val => val - 1)
+    }
+
+    previous_tetrimino = new_tetrimino;
+
     draw()
 }
 
-const move_down = () => { 
+const move_down = () =>{ 
+
     undraw()
-    target = target.map(val => val + width)
+    current_tetrimino = current_tetrimino.map(val => val + width)
     draw()
     stop_move()
 }
 
+let dropTimeId;
+const dropdown = () => dropTimeId = setInterval(move_down,10)
 
 document.addEventListener('keydown',control)
