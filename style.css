@@ -1,10 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&family=Roboto:ital,wght@0,300;0,500;0,700;1,100&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
 
 *{
-    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: 'Poppins';
+    font-family: 'Poppins', sans-serif;
 }
 
 :root {
@@ -43,12 +42,10 @@ body{
 
 header{
     width: 100%;
-    /* height: 50px; */
     padding: 0.5rem;
     display: flex;
     justify-content: space-between;
     align-content: center;
-    /* background-color: #dc3545; */
 }
 
 header .score-level{
@@ -115,8 +112,6 @@ h1,span{
     color: var(--orange);
 }
 
-
-
 h5{
     position: absolute;
     bottom: 0;
@@ -167,11 +162,9 @@ footer{
     display: none;
     justify-content: center;
     align-items: center;
-    /* position: absolute; */
     width: 100%;
     height: 6rem;
     bottom: 0;
-    /* background-color: #ff9500; */
     margin-bottom: 1rem;
 }
 
@@ -181,7 +174,6 @@ footer{
     position: relative;
     margin: 0px auto 0rem auto;
     display: block;
-    /* background-color: #6f42c1; */
 }
 
 .control-btn{
@@ -204,8 +196,7 @@ button:active{
 .up{
     top: 0rem;
     left: 1.8rem;
-    /* background-color: var(--green); */
-    animation: up 1.8s ease-out alternate forwards;
+    animation: up 1s ease-out alternate forwards;
 }
 
 @keyframes up {
@@ -220,8 +211,7 @@ button:active{
 .right{
     top: 1.8rem;
     right: 0rem;
-    /* background-color: var(--warning); */
-    animation: right 2.5s ease-out alternate forwards;
+    animation: right 1s ease-out alternate forwards;
 }
 
 @keyframes right {
@@ -236,8 +226,7 @@ button:active{
 .down{
     left: 1.8rem;
     bottom: 0rem;
-    /* background-color: var(--purple); */
-    animation: down 3s ease-out alternate forwards;
+    animation: down 1s ease-out alternate forwards;
 }
 
 @keyframes down {
@@ -252,7 +241,7 @@ button:active{
 .left{
     top: 1.8rem;
     left: 0rem;
-    animation: left 3.5s ease-out alternate forwards;
+    animation: left 1s ease-out alternate forwards;
 } 
 @keyframes left {
     0%{
@@ -272,10 +261,9 @@ main h1 {
     text-transform: capitalize;
 }
 
-.tetrimonies{
+.tetriminoes{
     width: 40%;
     height: 90%;
-    /* background-color: #20c997; */
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
@@ -288,17 +276,14 @@ main h1 {
 }
 
 .grids{
-    /* background-color: #28a745; */
     grid-row: 1/-1;
     display: grid;
     grid-template-columns: repeat(10, minmax(1rem,04rem));
     grid-template-rows: repeat(20, minmax(1rem,04rem));
-    /* gap: 1px; */
     border: 1px solid lightgrey;
 }
 
 .grids div{
-    /* background-color: peru; */
     border: 1px solid lightgrey;
 
 }
@@ -306,11 +291,9 @@ main h1 {
     grid-row: 1/2;
     display: grid;
     grid-template-columns: repeat(10, minmax(1rem,04rem));
-    /* gap: 2px;  */
     height: auto;
 }
 .new-grids div{
-    /* background-color: var(--pink); */
     border: 1px solid lightgrey;
 
 }
@@ -344,7 +327,6 @@ main h1 {
 
 .high-score-section{
     box-shadow: 1px 1px 3px var(--black);
-    /* background-color: #fd7e14; */
     border-radius: 5px;
     display: flex;
     flex-direction: column;
@@ -398,26 +380,25 @@ main h1 {
         height: auto;
     }
     main{
-        height: 60vh;
+        height: 65vh;
     }
     .grids{
         grid-template-columns: repeat(10, minmax(1rem,04rem));
-        /* grid-template-rows: repeat(20, minmax(1rem,01rem)); */
     }
     .new-grids{
-        /* background-color: #28a7a3;
-        grid-row: 1/2;
-        display: grid; */
         grid-template-columns: repeat(10, minmax(0rem,04rem));
-        /* grid-template-rows: repeat(10, minmax(0rem,01rem)); */
-
-        /* gap: 2px;  */
     }
     footer{
         display: flex;
     }
-    .tetrimonies{
+    .tetriminoes{
         width: 50%;
+    }
+    .buttons{
+        width: 6rem;
+        position: relative;
+        margin: 0px auto 0.2rem auto;
+        display: block;
     }
     
 
@@ -460,17 +441,15 @@ main h1 {
     }
 
     .buttons{
-        /* width: 7rem;
-        height: 6.5rem; */
+        width: 6rem;
         position: relative;
         margin: 0px auto 0.2rem auto;
         display: block;
-        /* background-color: #6f42c1; */
     }
     section{
         width: 90%;
     }
-    .tetrimonies{
+    .tetriminoes{
         width: 90%;
     }
 }
