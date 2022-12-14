@@ -280,7 +280,6 @@ const stop_move = () =>{
         draw()
         clearInterval(dropTimeId)
     }
-
     
 }
 
@@ -371,21 +370,23 @@ const cut_tetrimino = tetris =>{
     })
     
     for(const val of cut){
-        let start = val, end = val + width;
-        let taken = Array.from(grid).slice(start,end)
-        if(taken.every(box => box.className.includes('taken'))){
-            taken.forEach(box => {
-                box.remove();
-                taken.splice(box)
-            })
 
-            for(let i = 0; i < 10; i++){
+        let start = val, end = val + width;
+        grid = document.querySelectorAll('.grids div')
+        let taken = Array.from(grid).slice(start,end)
+        if(taken.every(box => box.className.includes('tetris'))){
+            taken.forEach(box => {
+
+                // remove box
+                box.remove();
+
+                // create new grid div and add at the top of the grid square
                 let ele = document.createElement('div')
                 ele.classList.add('grid')
                 main_section.insertAdjacentElement('afterbegin',ele)
-            }
+            })
+
         }
-        // console.log(taken)
 
     }
 
