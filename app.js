@@ -364,9 +364,9 @@ const dropdown = () => dropTimeId = setInterval(move_down,10)
 const cut_tetrimino = tetris =>{
     
     let cut = tetris.flatMap(val => {
-       let x =`${val}`.split('')
-       x[x.length-1] = 0
-       return Number(x.flat().join(''))
+       let n =`${val}`.split('')
+       n[n.length-1] = 0
+       return Number(n.flat().join(''))
     })
     
     for(const val of cut){
