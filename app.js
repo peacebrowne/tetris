@@ -106,6 +106,8 @@ const section = (items,sec) => {
  */
 let grid;
 let timeId;
+let normal_speed = 1000;
+let dropdown_speed = 10;
 
 const new_game = clas =>{
     
@@ -128,7 +130,7 @@ const new_game = clas =>{
     main_section = document.querySelector('.grids')
     current_tetrimino = tetriminoes[random][0]
     draw()
-    timeId = setInterval(move_down,1000)
+    timeId = setInterval(move_down,normal_speed)
 
 }
 
@@ -359,7 +361,7 @@ const move_down = () =>{
 
 //  Move gliding tetrimino down as fast as one second whent the down control button is clicked.
 let dropTimeId;
-const dropdown = () => dropTimeId = setInterval(move_down,10)
+const dropdown = () => dropTimeId = setInterval(move_down,dropdown_speed)
 
 const cut_tetrimino = tetris =>{
     
