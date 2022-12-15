@@ -322,7 +322,7 @@ const move_right = () =>{
 const switch_tetrimino = () =>{
 
     undraw()
-    rotation++
+    rotation = ++rotation
 
     // return to first tetrimino if current tetrimino is undefined
     if(tetriminoes[random][rotation] === undefined) rotation = 0;
