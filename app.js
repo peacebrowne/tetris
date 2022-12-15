@@ -331,7 +331,7 @@ const switch_tetrimino = () =>{
 
     new_tetrimino = tetriminoes[random][rotation]
     
-    // Entire switching take place below.
+    // Entire switching of tetrimino take place below.
     for(let i = 0; i < current_tetrimino.length; i++){
         current_tetrimino[i] = (current_tetrimino[i] - previous_tetrimino[i]) + new_tetrimino[i]
     }
