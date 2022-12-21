@@ -78,11 +78,11 @@ nav h1{
 
 main{
     width: 100%;
-    height: 80vh;
-    background-color: #007bff;
+    height: 90vh;
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
+    flex-direction: column;
 }
 ul{
     width: 80%;
@@ -121,16 +121,19 @@ h5{
     text-transform: uppercase;
 }
 
-.new-game-menu{
+.continue-game{
+    display: grid;
+}
+.newGame-menu{
     animation: menu_in 1s ease-in 0.5s alternate forwards;
 }
 .continue-menu{
     animation: menu_in 1s ease-in 0.7s alternate forwards;
 }
-.high-score-menu{
+.highScore-menu{
     animation: menu_in 1s ease-in 0.9s alternate forwards;
 }
-.select-level-menu{
+.selectLevel-menu{
     animation: menu_in 1s ease-in 1s alternate forwards;
 }
 .help-menu{
@@ -169,7 +172,7 @@ footer{
 }
 
 .buttons{
-    width: 30%;
+    width: 6rem;
     height: 6rem;
     position: relative;
     margin: 0px auto 0rem auto;
@@ -261,10 +264,10 @@ main h1 {
     text-transform: capitalize;
 }
 
-.tetriminoes{
-    width: 40%;
-    height: 90%;
-    display: grid;
+.newGame-section{
+    width: 30%;
+    height: 66%;
+    display: none;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
     gap: 0.2rem;
@@ -283,7 +286,7 @@ main h1 {
     border: 1px solid lightgrey;
 }
 
-.grids div{
+.grids div,.new-grids div{
     border: 1px solid lightgrey;
 
 }
@@ -293,10 +296,7 @@ main h1 {
     grid-template-columns: repeat(10, minmax(1rem,04rem));
     height: auto;
 }
-.new-grids div{
-    border: 1px solid lightgrey;
 
-}
 .score-level{
     display: flex;
     flex-direction: column;
@@ -325,13 +325,33 @@ main h1 {
 }
 
 
-.high-score-section{
-    box-shadow: 1px 1px 3px var(--black);
+.highScore-section{
+    width: 40%;
+    height: 50%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.high-score-caution{
     border-radius: 5px;
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 70%;
+    height: 70%;
+}
+
+.high-score{
+    width: 50%;
+    height: 50%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+    text-transform: capitalize;
 }
 
 .high-score-btn{
@@ -341,7 +361,7 @@ main h1 {
     align-items: center;
 }
 
-.high-score-section h4{
+.high-score-caution h4{
     font-size: 2rem;
     text-transform: capitalize;
 }
@@ -354,6 +374,26 @@ main h1 {
     border: none;
     box-shadow: 1px 1px 3px var(--black);
     cursor: pointer;
+}
+.high-score h4{
+    font-size: 1.2rem;
+}
+.selectLevel-section{
+    width: 40%;
+    display: none;
+}
+
+select{
+    width: 100%;
+    outline: none;
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: none;
+}
+
+.help{
+    width: 40%;
+    display: none;
 }
 
 .display-none{
@@ -374,13 +414,31 @@ main h1 {
     justify-content: center;
     align-items: center;
 }
+
+.counter{
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.499);
+
+}
+
+.counter h1{
+    font-size:  4rem;
+}
+
+
 @media only screen and (min-width: 481px)and (max-width: 900px){
     section{
         width: 50%;
         height: auto;
     }
     main{
-        height: 65vh;
+        height: 90vh;
     }
     .grids{
         grid-template-columns: repeat(10, minmax(1rem,04rem));
@@ -391,14 +449,14 @@ main h1 {
     footer{
         display: flex;
     }
-    .tetriminoes{
-        width: 50%;
+    .newGame-section{
+        width: 42%;
     }
     .buttons{
         width: 6rem;
         position: relative;
         margin: 0px auto 0.2rem auto;
-        display: block;
+        display: none;
     }
     
 
@@ -411,7 +469,7 @@ main h1 {
         font-weight: 200;
     }
     main{
-        height: 70vh;
+        height: 90vh;
     }
     header{
         padding: 0.5rem;
@@ -445,11 +503,21 @@ main h1 {
         position: relative;
         margin: 0px auto 0.2rem auto;
         display: block;
+        
     }
     section{
         width: 90%;
     }
-    .tetriminoes{
+   
+    .newGame-section,.highScore-section,.selectLevel-section,.help{
         width: 90%;
+    }
+
+    .newGame-section{
+        height: 66%;
+    }
+
+    .high-score-caution h4{
+        font-size: larger;
     }
 }

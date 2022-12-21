@@ -9,8 +9,8 @@
 </head>
 <body>
 
-    <div class="reset-score-popup">
-        <section class="high-score-section">
+    <!-- <div class="reset-score-popup">
+        <div class="high-score-caution">
 
             <h3>Reset the high score?</h3>
             <div class="high-score-btn">
@@ -18,8 +18,9 @@
                 <button>cancel</button>
             </div>
     
-        </section>
-    </div>
+        </div>
+    </div> -->
+    <div class="counter"></div>
 
     <header>
         <h1 class="show-menu"> &#8592; Tetris</h1>
@@ -28,30 +29,36 @@
     <nav>
         <h1>Tetris</h1>
         <ul>
-            <li class="new-game-menu">New Game</li>
+            <li class="newGame-menu">New Game</li>
             <li class="continue-menu">Continue</li>
-            <li class="high-score-menu">High Score</li>
-            <li class="select-level-menu">Select Level</li>
+            <li class="highScore-menu">High Score</li>
+            <li class="selectLevel-menu">Select Level</li>
             <li class="help-menu">Help</li>
         </ul>
     </nav>
     
-    <main></main>
-
-    <footer>
-        <h5>
-            inspired by: kit
-        </h5>
+    <main>
+        <section class="newGame-section"></section>
+        <section class="highScore-section"></section>
+        <section class="selectLevel-section"></section>
+        <section class="help-section"></section>
 
         <div class="buttons">
-
+    
             <button class="control-btn ArrowUp">&#9652;</button>
             <button class="control-btn ArrowRight">&#9656;</button>
             <button class="control-btn ArrowDown">&#9662;</button>
             <button class="control-btn ArrowLeft">&#9666;</button>
-
+    
         </div>
-    </footer>
+    </main>
+
+    <!-- <footer>
+        <h5>
+            inspired by: kit
+        </h5>
+
+    </footer> -->
 
     <script src="./app.js"></script>
 </body>

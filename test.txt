@@ -121,7 +121,7 @@ const stable = section =>{
 let grid;
 let new_grid;
 let timeId;
-let normal_speed;
+let normal_speed = 1000;
 let dropdown_speed = 10;
 
 const new_game = clas =>{
@@ -151,7 +151,7 @@ const new_game = clas =>{
     
     draw(current_tetrimino,grid,0)
     next_tetriminoes()
-    normal_speed = levels()
+
     timeId = setInterval(move_down,normal_speed)
 
 }
@@ -351,15 +351,13 @@ const reset_highest_score = () => {
 
 const change_highest_score = current_score =>{
     let highest = localStorage.getItem('highest-score');
-    if(+current_score > +highest) localStorage.setItem('highest-score', current_score)
+    if(current_score > highest) localStorage.setItem('highest-score', current_score)
 }
 
 /**
  * Game level
  *  *  @param sec - Selected menu
  */
-
-
 const select_level = sec => {
 
     let ele = document.createElement('select');
@@ -373,30 +371,9 @@ const select_level = sec => {
     `
     hideEle('nav')
     hideEle('.buttons')
-    ele.addEventListener('change', select)
     section([ele],sec,'block')
 
 }
-
-const select = ev =>localStorage.setItem('level',ev.target.value)
-
-const levels = () =>{
-    // if score does not exist set highest score to 0
-    if (localStorage.getItem('level') === null){
-        localStorage.setItem('level',1)
-    }
-
-    // display highest score
-    let current_level = localStorage.getItem('level');
-    let ele = element('.level h1')
-    ele.textContent = current_level;
-
-    return `${current_level}000`;
-
-}
-
-
-
 
 /**
  * Game level
@@ -467,7 +444,7 @@ const draw = (tetris,boxes,n) => tetris.forEach(val => add_toggle(boxes[val+n],'
  *  *  @param tetris [array of numbers] - numbers to undraw current tetrimino
  *  *  @param boxes - [html collection of divs] - div to undraw current tetrimino
  */
-const undraw = (tetris,boxes,n) => tetris.forEach( val => remove_toggle(boxes[val+n],'tetris'))
+const undraw = (tetris,boxes) => tetris.forEach( val => remove_toggle(boxes[val],'tetris'))
 
 
 let current_rotation;
@@ -493,7 +470,7 @@ const stop_move = () =>{
         previous_tetrimino = current_tetrimino;
         rotation = current_rotation;
         draw(current_tetrimino, grid,0)
-        undraw(new_tetrimino,new_grid,30)
+        undraw(new_tetrimino,new_grid)
         next_tetriminoes()
         clearInterval(dropTimeId)
     }
@@ -518,7 +495,7 @@ const control = ev =>{
 // Move current tetrimino down after every one second.
 const move_down = () =>{ 
 
-    undraw(current_tetrimino, grid,0)
+    undraw(current_tetrimino, grid)
     current_tetrimino = current_tetrimino.map(val => val + width)
     draw(current_tetrimino, grid,0)
     stop_move()
@@ -529,7 +506,7 @@ const move_down = () =>{
 const move_left = () =>{
 
     if(current_tetrimino.some(val => val % width === 0) || current_tetrimino.some(val => grid[--val].className.includes('taken'))) return;
-    undraw(current_tetrimino, grid,0)
+    undraw(current_tetrimino, grid)
     current_tetrimino = current_tetrimino.map(val => --val)
     draw(current_tetrimino, grid,0)
 
@@ -539,7 +516,7 @@ const move_left = () =>{
 const move_right = () =>{
 
     if(current_tetrimino.some(val => val % width === width-1) || current_tetrimino.some(val => grid[++val].className.includes('taken'))) return
-    undraw(current_tetrimino, grid,0)
+    undraw(current_tetrimino, grid)
     current_tetrimino = current_tetrimino.map(val => ++val)
     draw(current_tetrimino, grid,0)
     
@@ -550,7 +527,7 @@ const move_right = () =>{
 // Switching to next tetrimino each time the up control button is clicked
 const switch_tetrimino = () =>{
 
-    undraw(current_tetrimino, grid,0)
+    undraw(current_tetrimino, grid)
     
     // return to first tetrimino if current tetrimino is undefined
     if(tetriminoes[random][rotation+1] !== undefined) rotation++
@@ -608,7 +585,6 @@ const cut_tetrimino = tetris =>{
             let ele = element('.score h1');
             ele.textContent = Number(ele.textContent) + 4
             change_highest_score(ele.textContent)
-            console.log(localStorage)
 
         }
 
