@@ -38,22 +38,25 @@ let main_section;
  * Handling all clicks event on game
  *  *  @param clas - class to toggle
  */
-document.body.addEventListener('click', ev =>{
-    
+
+const all_clicks = ev =>{
+
     ev.preventDefault()
     let target = ev.target.className;
     if(['newGame-menu','continue-menu','highScore-menu','selectLevel-menu','help-menu'].indexOf(target) > -1){
         stable(target)
     }
-    else if(target =='show-menu') show_menu()
+    // else if(target =='show-menu') show_menu()
     else if(target.includes('ArrowUp')) switch_tetrimino()
     else if(target.includes('ArrowRight')) move_right()
     else if(target.includes('ArrowLeft')) move_left()
     else if(target.includes('ArrowDown')) dropdown()
     else if(target.includes('reset-score')) reset_highest_score()
 
+}
 
-})
+document.body.addEventListener('click', all_clicks)
+
 
 /**
  * hide menu after selecting menu
@@ -87,6 +90,9 @@ const show_menu = () =>{
     toggle_button()
     
 }
+const menu = element('.show-menu')
+menu.addEventListener('click',show_menu)
+
 
 /**
  * Engine of the game, controls the entire game
@@ -148,7 +154,7 @@ const new_game = clas =>{
 
     current_tetrimino = tetriminoes[random][rotation]
     previous_tetrimino = current_tetrimino;
-    
+    previous_random = random
     draw(current_tetrimino,grid,0)
     next_tetriminoes()
     normal_speed = levels()
@@ -295,6 +301,7 @@ const counter = () => {
 
             clearInterval(counterId)
             hideEle('.counter')
+            normal_speed = levels()
             timeId = setInterval(move_down,normal_speed)
             
         }
@@ -370,6 +377,10 @@ const select_level = sec => {
         <option>3</option>
         <option>4</option>
         <option>5</option>
+        <option>6</option>
+        <option>7</option>
+        <option>8</option>
+        <option>9</option>
     `
     hideEle('nav')
     hideEle('.buttons')
@@ -391,7 +402,7 @@ const levels = () =>{
     let ele = element('.level h1')
     ele.textContent = current_level;
 
-    return `${current_level}000`;
+    return current_level != 1 ? 1000 - Number(`${current_level}00`): 1000;
 
 }
 
@@ -438,17 +449,76 @@ let width = 10;
 let start_pos = 4;
 
 // L-TETRIMINOES DESIGNS
-const ltetriminoes = [
+const jTetriminoes = [
     [start_pos,start_pos+1,width+start_pos, width*2+start_pos],
     [start_pos-1,start_pos, start_pos+1,width+start_pos+1],
     [start_pos+1, width+start_pos+1,width*2+start_pos, width*2+start_pos+1],
     [start_pos,width+start_pos , width+start_pos+1,width+start_pos+2 ]
 ]
 
+// S-TETRIMIOES DESIGNS
+const sTetriminoes = [
+    [start_pos+1,start_pos+2,width+start_pos, width+start_pos+1],
+    [start_pos,width+start_pos, width+start_pos+1,width*2+start_pos+1],
+    [start_pos+1,start_pos+2,width+start_pos, width+start_pos+1],
+    [start_pos,width+start_pos, width+start_pos+1,width*2+start_pos+1],
+]
+
+// Z-TETRIMIOES DESIGNS
+const zTetriminoes = [
+    [start_pos-1,start_pos,width+start_pos, width+start_pos+1],
+    [start_pos+1,width+start_pos,width+start_pos+1,width*2+start_pos],
+    [start_pos-1,start_pos,width+start_pos, width+start_pos+1],
+    [start_pos+1,width+start_pos,width+start_pos+1,width*2+start_pos],
+]
+
+// T-TETRIMIOES DESIGNS
+const tTetriminoes = [
+    [start_pos+1,width+start_pos,width+start_pos+1,width+start_pos+2],
+    [start_pos,width+start_pos, width+start_pos+1,width*2+start_pos],
+    [start_pos,start_pos+1,start_pos+2,width+start_pos+1],
+    [start_pos+1,width+start_pos,width+start_pos+1,width*2+start_pos+1],
+]
+
+
+// O-TETRIMIOES DESIGNS
+const oTetriminoes = [
+    [ start_pos,start_pos+1,width+start_pos,width+start_pos+1],
+    [ start_pos,start_pos+1,width+start_pos,width+start_pos+1],
+    [ start_pos,start_pos+1,width+start_pos,width+start_pos+1],
+    [ start_pos,start_pos+1,width+start_pos,width+start_pos+1],
+]
+
+// I-TETRIMIOES DESIGNS
+const iTetriminoes = [
+    [ start_pos,width+start_pos,width*2+start_pos,width*3+start_pos],
+    [ width+start_pos-1,width+start_pos,width+start_pos+1,width+start_pos+2],
+    [ start_pos,width+start_pos,width*2+start_pos,width*3+start_pos],
+    [ width+start_pos-1, width+start_pos, width+start_pos+1, width+start_pos+2],
+]
+
+// J-TETRIMINOES DESIGNS
+const lTetriminoes = [
+    [start_pos,start_pos+1,width+start_pos+1, width*2+start_pos+1],
+    [start_pos+1,width+start_pos-1,width+start_pos, width+start_pos+1],
+    [start_pos, width+start_pos,width*2+start_pos, width*2+start_pos+1],
+    [start_pos-1,start_pos, start_pos+1,width+3],
+]
+
 // ALL TETRIMINOES
-const tetriminoes = [ltetriminoes]
+const tetriminoes = [
+    sTetriminoes,
+    zTetriminoes,
+    tTetriminoes,
+    oTetriminoes,
+    iTetriminoes,
+    jTetriminoes,
+    lTetriminoes,
+
+]
 
 let random = Math.floor(Math.random() * tetriminoes.length)
+let previous_random;
 let rotation = 0;
 let current_tetrimino
 let previous_tetrimino;
@@ -473,6 +543,7 @@ const undraw = (tetris,boxes,n) => tetris.forEach( val => remove_toggle(boxes[va
 let current_rotation;
 const next_tetriminoes = () => {
     
+    previous_random = random
     random = Math.floor(Math.random() * tetriminoes.length)
     current_rotation = Math.floor(Math.random() * tetriminoes[random].length)
     new_tetrimino = tetriminoes[random][current_rotation]
@@ -487,6 +558,7 @@ const next_tetriminoes = () => {
 const stop_move = () =>{
 
     if(current_tetrimino.some(box => grid[box + width].className.includes('taken'))){
+        game_over()
         current_tetrimino.forEach( item => grid[item].classList.add('taken'))
         cut_tetrimino(current_tetrimino)
         current_tetrimino = new_tetrimino
@@ -553,27 +625,27 @@ const switch_tetrimino = () =>{
     undraw(current_tetrimino, grid,0)
     
     // return to first tetrimino if current tetrimino is undefined
-    if(tetriminoes[random][rotation+1] !== undefined) rotation++
-    else if (tetriminoes[random][rotation+1] === undefined) rotation = 0
+    if(tetriminoes[previous_random][rotation+1] !== undefined) rotation++
+    else if (tetriminoes[previous_random][rotation+1] === undefined) rotation = 0
 
-    let sibling_tetrimino = tetriminoes[random][rotation]
+    let sibling_tetrimino = tetriminoes[previous_random][rotation]
 
     // Entire switching of tetrimino take place below.
+    let tetris = []
     for(let i = 0; i < current_tetrimino.length; i++){
-        current_tetrimino[i] = (current_tetrimino[i] - previous_tetrimino[i]) + sibling_tetrimino[i]
+        tetris.push((current_tetrimino[i] - previous_tetrimino[i]) + sibling_tetrimino[i])
     }
-
+    current_tetrimino = tetris
     previous_tetrimino = sibling_tetrimino;
+    // if(current_tetrimino.some(val => val % width === 0) && current_tetrimino.some(val => val % width === width)){
+    //     current_tetrimino = current_tetrimino.map(val => val + 1)
+    // }
+    // if(current_tetrimino[0] % width === width-1){
+    // }else if(current_tetrimino.some(val => val % width > 0)){
+    //     current_tetrimino = current_tetrimino.map(val => val - 1)
+    // }
 
-    if(current_tetrimino[0] % width === width-1 && current_tetrimino.some(val => val % width === 0)){
-        current_tetrimino = current_tetrimino.map(val => val + 1)
-    }
-
-    if(current_tetrimino[current_tetrimino.length-1] % width === 0 && current_tetrimino.some(val => val % width === width-1)){
-        current_tetrimino = current_tetrimino.map(val => val - 1)
-    }
-
-    draw(current_tetrimino, grid,0)
+    draw(current_tetrimino, grid,0)  
 }
 
 //  Move gliding tetrimino down as fast as one second whent the down control button is clicked.
@@ -608,12 +680,17 @@ const cut_tetrimino = tetris =>{
             let ele = element('.score h1');
             ele.textContent = Number(ele.textContent) + 4
             change_highest_score(ele.textContent)
-            console.log(localStorage)
 
         }
 
     }
 
+}
+
+const game_over = () => {
+    if(current_tetrimino.some(val => grid[val].className.includes('taken'))){
+        clearInterval(timeId)
+    }
 }
 
 document.addEventListener('keydown',control)
