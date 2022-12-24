@@ -622,6 +622,9 @@ const move_right = () =>{
 // Switching to next tetrimino each time the up control button is clicked
 const switch_tetrimino = () =>{
 
+
+    if(current_tetrimino.some(val => val % width === width-1))return
+    else if(current_tetrimino.some(val => val % width === 0)) return
     undraw(current_tetrimino, grid,0)
     
     // return to first tetrimino if current tetrimino is undefined
@@ -637,13 +640,6 @@ const switch_tetrimino = () =>{
     }
     current_tetrimino = tetris
     previous_tetrimino = sibling_tetrimino;
-    // if(current_tetrimino.some(val => val % width === 0) && current_tetrimino.some(val => val % width === width)){
-    //     current_tetrimino = current_tetrimino.map(val => val + 1)
-    // }
-    // if(current_tetrimino[0] % width === width-1){
-    // }else if(current_tetrimino.some(val => val % width > 0)){
-    //     current_tetrimino = current_tetrimino.map(val => val - 1)
-    // }
 
     draw(current_tetrimino, grid,0)  
 }
