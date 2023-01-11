@@ -46,11 +46,10 @@ const all_clicks = ev =>{
     if(['newGame-menu','continue-menu','highScore-menu','selectLevel-menu','help-menu'].indexOf(target) > -1){
         stable(target)
     }
-    // else if(target =='show-menu') show_menu()
-    else if(target.includes('ArrowUp')) switch_tetrimino()
-    else if(target.includes('ArrowRight')) move_right()
-    else if(target.includes('ArrowLeft')) move_left()
-    else if(target.includes('ArrowDown')) dropdown()
+    // else if(target.includes('ArrowUp')) switch_tetrimino()
+    // else if(target.includes('ArrowRight')) move_right()
+    // else if(target.includes('ArrowLeft')) move_left()
+    // else if(target.includes('ArrowDown')) dropdown()
     else if(target.includes('reset-score')) reset_highest_score()
 
 }
@@ -88,6 +87,11 @@ const show_menu = () =>{
     hideEle(current_section)
     showEle('nav','flex')
     toggle_button()
+    document.addEventListener('keydown',control)
+    ArrowDown.addEventListener('click',dropdown);
+    ArrowUp.addEventListener('click',switch_tetrimino);
+    ArrowRight.addEventListener('click',move_right);
+    ArrowLeft.addEventListener('click',move_left);
     
 }
 const menu = element('.show-menu')
@@ -148,9 +152,9 @@ const new_game = clas =>{
     showEle('.buttons', 'block')
     toggle_button()
 
-    grid = document.querySelectorAll('.grids div')
-    new_grid = document.querySelectorAll('.new-grids div')
-    main_section = document.querySelector('.grids')
+    grid = element('.grids').children
+    new_grid = element('.new-grids').children
+    main_section = element('.grids')
 
     current_tetrimino = tetriminoes[random][rotation]
     previous_tetrimino = current_tetrimino;
@@ -406,9 +410,6 @@ const levels = () =>{
 
 }
 
-
-
-
 /**
  * Game level
  *  *  @param sec - Selected menu
@@ -480,7 +481,6 @@ const tTetriminoes = [
     [start_pos+1,width+start_pos,width+start_pos+1,width*2+start_pos+1],
 ]
 
-console.log(tTetriminoes)
 
 // O-TETRIMIOES DESIGNS
 const oTetriminoes = [
@@ -508,13 +508,13 @@ const lTetriminoes = [
 
 // ALL TETRIMINOES
 const tetriminoes = [
-    // sTetriminoes,
-    // zTetriminoes,
-    // tTetriminoes,
-    // oTetriminoes,
+    sTetriminoes,
+    zTetriminoes,
+    tTetriminoes,
+    oTetriminoes,
     iTetriminoes,
-    // jTetriminoes,
-    // lTetriminoes,
+    jTetriminoes,
+    lTetriminoes,
 
 ]
 
@@ -562,6 +562,8 @@ const stop_move = () =>{
         game_over()
         current_tetrimino.forEach( item => grid[item].classList.add('taken'))
         cut_tetrimino(current_tetrimino)
+
+        // starts new tetrimino
         current_tetrimino = new_tetrimino
         previous_tetrimino = current_tetrimino;
         rotation = current_rotation;
@@ -591,14 +593,14 @@ const control = ev =>{
 // Move current tetrimino down after every one second.
 const move_down = () =>{ 
 
+    stop_move()
     undraw(current_tetrimino, grid,0)
     current_tetrimino = current_tetrimino.map(val => val + width)
     draw(current_tetrimino, grid,0)
-    stop_move()
-    
 }
 
 // Move gliding tetrimino left each time left control button is clicked
+const ArrowLeft = element('.ArrowLeft')
 const move_left = () =>{
 
     if(current_tetrimino.some(val => val % width === 0) || current_tetrimino.some(val => grid[--val].className.includes('taken'))) return;
@@ -607,8 +609,10 @@ const move_left = () =>{
     draw(current_tetrimino, grid,0)
 
 }
+ArrowLeft.addEventListener('click',move_left);
 
 // Move gliding tetrimino right each time right control button is clicked
+const ArrowRight = element('.ArrowRight')
 const move_right = () =>{
 
     if(current_tetrimino.some(val => val % width === width-1) || current_tetrimino.some(val => grid[++val].className.includes('taken'))) return
@@ -617,12 +621,15 @@ const move_right = () =>{
     draw(current_tetrimino, grid,0)
     
 }
-
+ArrowRight.addEventListener('click',move_right);
 
 
 // Switching to next tetrimino each time the up control button is clicked
+const ArrowUp = element('.ArrowUp')
 const switch_tetrimino = () =>{
 
+    if(current_tetrimino.some(val => val % width === width-1))return
+    else if(current_tetrimino.some(val => val % width === 0)) return
     undraw(current_tetrimino, grid,0)
     
     // return to first tetrimino if current tetrimino is undefined
@@ -639,18 +646,17 @@ const switch_tetrimino = () =>{
     current_tetrimino = tetris
     previous_tetrimino = sibling_tetrimino;
 
-    if(current_tetrimino[0] % width === width-1){
-        current_tetrimino = current_tetrimino.map(val => val + 1)
-    }else if(current_tetrimino.some(val => val % width > 0)){
-        current_tetrimino = current_tetrimino.map(val => val - 1)
-    }
-
     draw(current_tetrimino, grid,0)  
 }
+ArrowUp.addEventListener('click',switch_tetrimino);
+
+
 
 //  Move gliding tetrimino down as fast as one second whent the down control button is clicked.
+const ArrowDown = element('.ArrowDown')
 let dropTimeId;
 const dropdown = () => dropTimeId = setInterval(move_down,dropdown_speed)
+ArrowDown.addEventListener('click',dropdown);
 
 const cut_tetrimino = tetris =>{
     
@@ -659,15 +665,15 @@ const cut_tetrimino = tetris =>{
        n[n.length-1] = 0
        return Number(n.flat().join(''))
     })
-    
+
     for(const val of cut){
 
-        let start = val, end = val + width;
-        grid = document.querySelectorAll('.grids div')
-        let taken = Array.from(grid).slice(start,end)
-        if(taken.every(box => box.className.includes('tetris'))){
+        const start = val, end = val + width;
+        grid = element('.grids').children
+        const taken = Array.from(grid).slice(start,end)
+        const status = taken.every(box => box.className.includes('tetris'))
+        if(status){
             taken.forEach(box => {
-
                 // remove box
                 box.remove();
 
@@ -675,6 +681,7 @@ const cut_tetrimino = tetris =>{
                 let ele = document.createElement('div')
                 ele.classList.add('grid')
                 main_section.insertAdjacentElement('afterbegin',ele)
+
             })
 
             let ele = element('.score h1');
@@ -690,6 +697,11 @@ const cut_tetrimino = tetris =>{
 const game_over = () => {
     if(current_tetrimino.some(val => grid[val].className.includes('taken'))){
         clearInterval(timeId)
+        document.removeEventListener('keydown',control)
+        ArrowDown.removeEventListener('click',dropdown);
+        ArrowUp.removeEventListener('click',switch_tetrimino);
+        ArrowRight.removeEventListener('click',move_right);
+        ArrowLeft.removeEventListener('click',move_left);
     }
 }
 
